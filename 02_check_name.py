@@ -6,7 +6,6 @@ def not_blank(question):
             print("Sorry - this can't be blank")
         else:
             return response
-            loop = False
             
 # Main routine
 

@@ -1,13 +1,12 @@
-def not_blank(question):
+def not_blank(question, error):
     loop = True
     while loop is not False:
         response = input(question)
         if response == "":
-            print("Sorry - this can't be blank")
+            print(error)
         else:
             return response
-            loop = False
             
 # Main routine
 
-name = not_blank("What's your name? ")
+name = not_blank("What's your name? ", "Sorry, you can't leave this blank - please enter your name.")
