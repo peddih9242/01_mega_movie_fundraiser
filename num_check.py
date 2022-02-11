@@ -17,4 +17,6 @@ def num_check(question, low, high):
         except ValueError:
             print(error)
 
-age = num_check("Age? ", 12, 130)
+loop = ""
+while loop == "":
+    age = num_check("Age? ", 12, 130)

@@ -12,6 +12,27 @@ def not_blank(question, error):
         else:
             return response
 
+# number checking function, checks for number
+# between low and high
+def num_check(question, low, high):
+    
+    error = "Please enter a whole number between {} and {}".format(low, high)
+
+    # start loop
+    valid = False
+    while valid is not True:
+        try:
+            # get number
+            response = int(input(question))
+            # check response is valid
+            if low <= response <= high:
+                return response
+            else:
+                print(error)
+
+        except ValueError:
+            print(error)
+
 # main routine
 
 # ask if user has used the program befre
@@ -26,15 +47,21 @@ while name != "xxx" and count < max_tickets:
     print("You have {} seats left".format(max_tickets - count))
     # get name (deny blank)
     name = not_blank("What's your name? ", "Sorry, you can't leave this blank - please enter your name.")
+    # end loop if the exit code is entered
+    if name == "xxx":
+        break
+    
     count += 1
+
+    # get age (between 12 and 130)
+    age = num_check("Age? ", 12, 130)
+
 if count == max_tickets:
     print("You have sold all the available tickets!")
 else:
     print("You sold {} tickets. \n"
     "There are {} places still available.".format(count, max_tickets - count))
-
-    # get age (between 12 and 130)
-
+    
     # calculate ticket price
 
     # loop to ask for snacks
