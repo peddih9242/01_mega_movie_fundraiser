@@ -9,14 +9,14 @@ def not_blank(question, error):
         response = input(question)
         if response == "":
             print(error)
+            print()
         else:
             return response
 
-# number checking function, checks for number
-# between low and high
-def num_check(question, low, high):
+# number checking function, checks for integer above 0
+def num_check(question):
     
-    error = "Please enter a whole number between {} and {}".format(low, high)
+    error = "Please enter a whole number above 0."
 
     # start loop
     valid = False
@@ -25,7 +25,7 @@ def num_check(question, low, high):
             # get number
             response = int(input(question))
             # check response is valid
-            if low <= response <= high:
+            if response >= 0:
                 return response
             else:
                 print(error)
@@ -42,6 +42,7 @@ def num_check(question, low, high):
 name = ""
 count = 0
 max_tickets = 5
+ticketprofit = 0
 
 while name != "xxx" and count < max_tickets:
     print("You have {} seats left".format(max_tickets - count))
@@ -50,11 +51,31 @@ while name != "xxx" and count < max_tickets:
     # end loop if the exit code is entered
     if name == "xxx":
         break
-    
-    count += 1
 
     # get age (between 12 and 130)
-    age = num_check("Age? ", 12, 130)
+    age = num_check("Age? ")
+
+    if age < 12:
+        print("Sorry you are too young")
+        print()
+        continue
+    elif age > 130:
+        print("That is probably a mistake!")
+        print()
+        continue
+    count += 1
+    print()
+
+    # calculate ticket price
+    if age < 16:
+        price = 7.5
+    elif age >= 65:
+        price = 6.5
+    else:
+        price = 10.5
+    # calculate profit
+    profit = price - 5
+    ticketprofit += profit
 
 if count == max_tickets:
     print("You have sold all the available tickets!")
@@ -62,7 +83,6 @@ else:
     print("You sold {} tickets. \n"
     "There are {} places still available.".format(count, max_tickets - count))
     
-    # calculate ticket price
 
     # loop to ask for snacks
 
