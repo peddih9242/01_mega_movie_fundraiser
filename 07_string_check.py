@@ -1,16 +1,3 @@
-def string_checker(question, check_list, error):
-    # start loop
-    valid = False
-    while not valid:
-        # get input
-        response = input(question).lower()
-        # check if response is same as each valid response or first letter
-        for item in check_list:
-            if response == item or response == item[0]:
-                return item
-        else:
-            print(error)
-
 # valid inputs for each snack
 valid_snacks = [
     ["popcorn", "p", "corn", "a"],
@@ -22,12 +9,15 @@ valid_snacks = [
 snack_ok = 0
 snack = 0
 
+# loop for testing
 for item in range(0, 3):
 
     desired_snack = input("Snack: ").lower()
     
+    # check for valid inputs in each list
     for var_list in valid_snacks:
 
+        # print first word in list of valid input
         if desired_snack in var_list:
             snack = var_list[0].title()
             snack_ok = "yes"
@@ -35,6 +25,7 @@ for item in range(0, 3):
         else:
             snack_ok = "no"
     
+    # output snack choice
     if snack_ok == "yes":
         print("Snack Choice: ", snack)
     else:

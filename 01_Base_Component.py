@@ -33,21 +33,24 @@ def num_check(question):
         except ValueError:
             print(error)
 
-# string checking function, checks that input is the same
-# a valid input (given with list) or first letter of valid input
-# for invalid input, give customizable error
-def string_checker(question, check_list, error):
-    # start loop
-    valid = False
-    while not valid:
-        # get input
-        response = input(question).lower()
-        # check if response is same as each valid response or first letter
-        for item in check_list:
-            if response == item or response == item[0]:
-                return item
+# string checking function, checks mini lists for multiple
+# valid options
+def string_checker(choice, options):
+    
+    # check for valid input in each list
+    for var_list in options:
+
+        # look for valid input in each list
+        if choice in var_list:
+            chosen = var_list[0].title()
+            valid = "yes"
+            break
         else:
-            print(error)
+            valid = "no"
+    if valid == "yes":
+        return chosen
+    else:
+        return "invalid choice"
 
 # main routine
 
