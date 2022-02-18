@@ -15,6 +15,8 @@ def string_checker(choice, options):
     if valid == "yes":
         return chosen
     else:
+        print("Please enter a valid option")
+        print()
         return "invalid choice"
 
 
@@ -27,7 +29,8 @@ valid_snacks = [
     ["popcorn", "p", "corn", "a"],
     ["M&M's", "m&m's", "mms", "m", "b"],
     ["pita chips", "chips", "pc", "pita", "c"],
-    ["water", "w", "d"]
+    ["water", "w", "d"],
+    ["orange juice", "oj"]
 ]
 
 snack_order = []
@@ -68,7 +71,11 @@ if check_snack == "Yes":
         amount_snack = "{} {}".format(amount, snack_choice)
         if snack_choice != "xxx" and snack_choice != "invalid choice":
             snack_order.append(amount_snack)
+# if they say no to snacks show they ordered none
+if len(snack_order) == 0:
+    snack_order.append(None)
+
 print()
-print("Snacks:")
+print("Snacks Ordered:")
 for item in snack_order:
     print(item)
