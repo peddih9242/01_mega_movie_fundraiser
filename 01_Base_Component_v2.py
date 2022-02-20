@@ -33,6 +33,26 @@ def num_check(question):
         except ValueError:
             print(error)
 
+def get_ticket_price(age):
+    if age < 12:
+        print("Sorry you are too young")
+        print()
+        continue
+    elif age > 130:
+        print("That is probably a mistake!")
+        print()
+        continue
+    
+    print()
+
+    # calculate ticket price
+    if age < 16:
+        price = 7.5
+    elif age >= 65:
+        price = 6.5
+    else:
+        price = 10.5
+
 # string checking function, checks that input is the same
 # a valid input (given with list) or first letter of valid input
 # for invalid input, give customizable error
@@ -62,6 +82,7 @@ ticketprofit = 0
 
 while name != "xxx" and count < max_tickets:
     print("You have {} seats left".format(max_tickets - count))
+
     # get name (deny blank)
     name = not_blank("What's your name? ", "Sorry, you can't leave this blank - please enter your name.")
     # end loop if the exit code is entered
@@ -70,25 +91,8 @@ while name != "xxx" and count < max_tickets:
 
     # get age (between 12 and 130)
     age = num_check("Age? ")
-
-    if age < 12:
-        print("Sorry you are too young")
-        print()
-        continue
-    elif age > 130:
-        print("That is probably a mistake!")
-        print()
-        continue
     count += 1
-    print()
 
-    # calculate ticket price
-    if age < 16:
-        price = 7.5
-    elif age >= 65:
-        price = 6.5
-    else:
-        price = 10.5
     # calculate profit
     profit = price - 5
     ticketprofit += profit
