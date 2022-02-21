@@ -1,5 +1,7 @@
 # import statements
 
+import pandas
+
 # functions
 
 # check that ticket name is not blank
@@ -33,25 +35,31 @@ def num_check(question):
         except ValueError:
             print(error)
 
-def get_ticket_price(age):
+# ask for ticket age, look for invalid age and calculate ticket price
+def get_ticket_price():
+
+    # get age (between 12 and 130)
+    age = num_check("Age? ")
+
+    # check for invalid age input and restart loop if found
     if age < 12:
         print("Sorry you are too young")
         print()
-        continue
+        return "invalid ticket price"
     elif age > 130:
         print("That is probably a mistake!")
         print()
-        continue
+        return "invalid ticket price"
     
     print()
 
-    # calculate ticket price
+        # calculate ticket price
     if age < 16:
-        price = 7.5
+        return 7.5
     elif age >= 65:
-        price = 6.5
+        return 6.5
     else:
-        price = 10.5
+        return 10.5
 
 # string checking function, checks that input is the same
 # a valid input (given with list) or first letter of valid input
@@ -78,7 +86,18 @@ def string_checker(question, check_list, error):
 name = ""
 count = 0
 max_tickets = 5
-ticketprofit = 0
+ticket_profit = 0
+ticket_sales = 0
+
+all_names = []
+all_tickets = []
+
+
+movie_data_dict = {
+    'Name': all_names,
+    'Ticket': all_tickets
+}
+
 
 while name != "xxx" and count < max_tickets:
     print("You have {} seats left".format(max_tickets - count))
@@ -89,13 +108,28 @@ while name != "xxx" and count < max_tickets:
     if name == "xxx":
         break
 
-    # get age (between 12 and 130)
-    age = num_check("Age? ")
+    # get price of ticket
+    ticket_price = get_ticket_price()
+    if ticket_price == "invalid ticket price":
+        continue
+    
     count += 1
 
-    # calculate profit
-    profit = price - 5
-    ticketprofit += profit
+    ticket_sales += ticket_price
+
+
+
+    # add name and ticket price to lists
+    all_names.append(name)
+    all_tickets.append(ticket_price)
+
+# print details
+movie_frame = pandas.DataFrame(movie_data_dict)
+print(movie_frame)
+
+# calculate profit
+ticket_profit = ticket_sales - (5 * count)
+print("Ticket profit: ${:.2f}".format(ticket_profit))
 
 if count == max_tickets:
     print("You have sold all the available tickets!")
@@ -103,6 +137,7 @@ else:
     print("You sold {} tickets. \n"
     "There are {} places still available.".format(count, max_tickets - count))
     
+
 
     # loop to ask for snacks
 
