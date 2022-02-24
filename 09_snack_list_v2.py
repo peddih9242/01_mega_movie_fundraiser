@@ -12,15 +12,16 @@ count = 0
 
 snack_list = [popcorn, mnms, pita_chips, water, orange_juice]
 
+names = ["Rangi", "Manaia", "Talia", "Arihi", "Fetu"]
+
 snack_dict = {
+    'Name': names,
     'Popcorn': popcorn,
     'Pita Chips': pita_chips,
     'Water': water,
     'Orange Juice': orange_juice,
     'M&Ms': mnms
 }
-
-names = ["Rangi", "Manaia", "Talia", "Arihi", "Fetu"]
 
 test_data = [
 
@@ -50,9 +51,15 @@ for client_order in test_data:
             add_list = snack_dict[to_find]
             add_list[-1] = amount
 
-print()
-print("Popcorn: ", snack_list[0])
+print("Popcorn:", snack_list[0])
 print("M&Ms:", snack_list[1])
-print("Pita Chips", snack_list[2])
-print("Water", snack_list[3])
-print("Orange Juice", snack_list[4])
+print("Pita Chips:", snack_list[2])
+print("Water:", snack_list[3])
+print("Orange Juice:", snack_list[4])
+print()
+
+
+snack_results = pandas.DataFrame(snack_dict)
+snack_results = snack_results.set_index('Name')
+# snack_results.sort_index(axis=0)
+print(snack_results)
