@@ -19,6 +19,7 @@ def string_checker(choice, options):
 
 # main routine
 
+# initialize ticket cost list, valid options and price
 ticket_costs = [7.5, 10.5, 10.5, 10.5, 6.5]
 ticket_price = 0
 
@@ -27,12 +28,13 @@ payment_options = [
     ["credit", "card", "debit card", "credit card"]
 ]
 
+# get payment method
 payment = "invalid choice"
 while payment == "invalid choice":
     payment = input("What payment method would you like to use? ")
     check_payment = string_checker(payment, payment_options)
 
-print(check_payment)
+# apply surcharge if using card, print total cost
 for price in ticket_costs:
     if check_payment == "Credit":
         ticket_price = price * 1.05
