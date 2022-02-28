@@ -1,6 +1,3 @@
-from http.client import PAYMENT_REQUIRED
-
-
 def string_checker(choice, options):
     
     # check for valid input in each list
@@ -23,17 +20,23 @@ def string_checker(choice, options):
 # main routine
 
 ticket_costs = [7.5, 10.5, 10.5, 10.5, 6.5]
+ticket_price = 0
 
 payment_options = [
-    ["cash", "coins"]
+    ["cash", "coins"],
     ["credit", "card", "debit card", "credit card"]
 ]
 
 payment = "invalid choice"
 while payment == "invalid choice":
     payment = input("What payment method would you like to use? ")
+    check_payment = string_checker(payment, payment_options)
 
+print(check_payment)
 for price in ticket_costs:
-    if payment == "credit":
-        price *= 1.05
+    if check_payment == "Credit":
+        ticket_price = price * 1.05
+    else:
+        ticket_price = price
+    print("Price: ${:.2f}".format(ticket_price))
     print()
