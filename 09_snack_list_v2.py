@@ -45,11 +45,14 @@ for client_order in test_data:
     for item in snack_order:
         # make sure order is not blank, get amount and item
         # and add to list
+        print(item)
         if len(item) > 0:
             to_find = (item[1])
+            print(to_find)
             amount = (item[0])
             add_list = snack_dict[to_find]
             add_list[-1] = amount
+            print(amount)
 
 print("Popcorn:", snack_list[0])
 print("M&Ms:", snack_list[1])

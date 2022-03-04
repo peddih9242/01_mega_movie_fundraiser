@@ -21,24 +21,26 @@ def string_checker(choice, options):
 
 # initialize ticket cost list, valid options and price
 ticket_costs = [7.5, 10.5, 10.5, 10.5, 6.5]
-ticket_price = 0
 
 payment_options = [
     ["cash", "coins"],
     ["credit", "card", "debit card", "credit card"]
 ]
 
-# get payment method
-payment = "invalid choice"
-while payment == "invalid choice":
-    payment = input("What payment method would you like to use? ")
-    check_payment = string_checker(payment, payment_options)
-
-# apply surcharge if using card, print total cost
+# start loop for hard coded test data
 for price in ticket_costs:
+    
+    # get payment method
+    payment = "invalid choice"
+    while payment == "invalid choice":
+        payment = input("What payment method would you like to use? ")
+        check_payment = string_checker(payment, payment_options)
+    
+    # decide whether to have surcharge then add surcharge
     if check_payment == "Credit":
-        ticket_price = price * 1.05
+        surcharge = price * 0.05
     else:
-        ticket_price = price
-    print("Price: ${:.2f}".format(ticket_price))
+        surcharge = 0
+    sub_total = price + surcharge
+    print("Price: ${:.2f}, Surcharge: ${:.2f}, Original Cost: ${:.2f}".format(sub_total, surcharge, price))
     print()
