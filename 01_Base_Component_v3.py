@@ -40,7 +40,7 @@ def not_blank(question, error):
 
 # number checking function, checks for integer above 0
 def num_check(question):
-    
+
     error = "Please enter a whole number above 0."
 
     # start loop
@@ -146,7 +146,6 @@ def snack_analyser(list):
     # get order
     count = 0
     for client_order in list:
-        print(client_order)        
         # make amount of each snack 0
         for item in snack_list:
             item.append(0)
@@ -182,6 +181,7 @@ ticket_sales = 0
 all_names = []
 all_tickets = []
 all_snacks = []
+surcharge_mult_list = []
 
 popcorn = []
 mnms = []
@@ -208,7 +208,8 @@ movie_data_dict = {
     'Pita Chips': pita_chips,
     'Water': water,
     'Orange Juice': orange_juice,
-    'M&Ms': mnms
+    'M&Ms': mnms,
+    'Surcharge Multiplier': surcharge_mult_list
 }
 
 price_dict = {
@@ -265,25 +266,42 @@ while name != "xxx" and count < max_tickets:
     all_snacks.append(snack)
     surcharge_multi = surcharge()
     
+    surcharge_mult_list.append(surcharge_multi)
 
 snack_analyser(all_snacks)
 
 # print details
-movie_frame = pandas.DataFrame(movie_data_dict, columns = ['Name', 'Ticket', 'M&Ms', 'Orange Juice', 'Pita Chips', 'Popcorn', 'Water'])
+movie_frame = pandas.DataFrame(movie_data_dict, columns = ['Name', 'Ticket', 'Surcharge Multiplier', 'M&Ms', 'Orange Juice', 'Pita Chips', 'Popcorn', 'Water'])
 movie_frame = movie_frame.set_index('Name')
 
-movie_frame["Sub Total"] = \
-    movie_frame['Ticket'] + \
+movie_frame["Snack Total"] = \
     movie_frame['Popcorn'] * price_dict['Popcorn'] + \
     movie_frame['Water'] * price_dict['Water'] + \
     movie_frame['Pita Chips'] * price_dict['Pita Chips'] + \
     movie_frame['M&Ms'] * price_dict['M&Ms'] + \
-    movie_frame['Orange Juice'] * price_dict['Orange Juice']
+    movie_frame['Orange Juice'] * price_dict['Orange Juice'] \
+
+movie_frame["Sub Total"] = movie_frame['Ticket'] \
+    + movie_frame['Snack Total']
+
+movie_frame["Surcharge"] = \
+    movie_frame['Sub Total'] * movie_frame['Surcharge Multiplier']
+
+movie_frame["Total"] = movie_frame['Sub Total'] \
+    + movie_frame['Surcharge']
 
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ',
-                            'Pita Chips': 'Chips'})
+                            'Pita Chips': 'Chips', 'Surcharge Multiplier': 'SM'})
 
-print(movie_frame)
+pandas.set_option('display.max_columns', None)
+
+pandas.set_option('precision', 2)
+
+print_all = input("Print all columns (y) for yes ")
+if print_all == "y":
+    print(movie_frame)
+else:
+    print(movie_frame[['Ticket', 'Snack Total', 'Sub Total', 'Surcharge', 'Total']])
 
 # calculate profit
 ticket_profit = ticket_sales - (5 * count)
