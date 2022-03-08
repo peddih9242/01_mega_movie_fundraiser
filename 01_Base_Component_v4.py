@@ -191,6 +191,12 @@ orange_juice = []
 
 snack_list = [popcorn, mnms, pita_chips, water, orange_juice]
 
+# lists to store summary data
+summary_headings = ["Popcorn", "M&Ms", "Pita Chips", "Water",
+    "Orange Juice", "Snack Profit", "Ticket Profit", "Total Profit"]
+
+summary_data = []
+
 # initialise dictionaries
 
 movie_data_dict = {
@@ -202,6 +208,11 @@ movie_data_dict = {
     'Orange Juice': orange_juice,
     'M&Ms': mnms,
     'Surcharge Multiplier': surcharge_mult_list
+}
+
+sumamry_data_dict = {
+    'Item': summary_headings,
+    'Amount': summary_data
 }
 
 price_dict = {
@@ -293,6 +304,18 @@ movie_frame["Total"] = movie_frame['Sub Total'] \
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ',
                             'Pita Chips': 'Chips', 'Surcharge Multiplier': 'SM'})
 
+# set up summary data frame and populate snack items
+
+for item in snack_list:
+    # sum items in each snack list
+    summary_data.append(sum(item))
+
+# get snack profit
+# get snack total from panda
+snack_total = movie_frame['Snack Total'.sum()]
+snack_profit = snack_total * 0.2
+summary_data.append(snack_profit)
+
 pandas.set_option('display.max_columns', None)
 
 pandas.set_option('precision', 2)
@@ -305,6 +328,7 @@ else:
 
 # calculate profit
 ticket_profit = ticket_sales - (5 * count)
+summary_data.append(ticket_profit)
 print("Ticket profit: ${:.2f}".format(ticket_profit))
 
 if count == max_tickets:
