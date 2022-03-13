@@ -162,6 +162,25 @@ def snack_analyser(list):
                 add_list = movie_data_dict[to_find]
                 add_list[-1] = amount
 
+
+def currency(x):
+    return "${:.2f}".format(x)
+
+
+def instructions(options):
+    want_instructions = "invalid choice"
+    while want_instructions == "invalid choice":
+        want_instructions = input("Would you like to read the instructions? ")
+        check_instructions = string_checker(want_instructions, options)
+
+    if check_instructions == "yes":
+        print()
+        print("**** Mega Movie Fundraiser Instructions ****")
+        print()
+        print()
+    else:
+        return ""
+
 # main routine
 
 # ask if user has used the program before
@@ -172,7 +191,7 @@ def snack_analyser(list):
 
 name = ""
 count = 0
-max_tickets = 5
+max_tickets = 150
 ticket_profit = 0
 ticket_sales = 0
 
@@ -242,6 +261,8 @@ valid_snacks = [
     ["orange juice", "oj", "juice", "o", "e"]
     ]
 
+instructions(yes_no)
+
 while name != "xxx" and count < max_tickets:
     print("You have {} seats left".format(max_tickets - count))
 
@@ -307,15 +328,17 @@ for item in snack_list:
 # get snack total from panda
 snack_total = movie_frame['Snack Total'].sum()
 snack_profit = snack_total * 0.2
-summary_data.append(snack_profit)
 
 # calculate ticket profit and add to list
 ticket_profit = ticket_sales - (5 * count)
-summary_data.append(ticket_profit)
 
 # get total profit and add to list
 total_profit = ticket_profit + snack_profit
-summary_data.append(total_profit)
+
+dollar_amounts = [snack_profit, ticket_profit, total_profit]
+for item in dollar_amounts:
+    item = "${:.2f}".format(item)
+    summary_data.append(item)
 
 # summary frame
 summary_frame = pandas.DataFrame(sumamry_data_dict)
@@ -324,8 +347,17 @@ summary_frame = summary_frame.set_index('Item')
 # set up columns to be printed
 pandas.set_option('display.max_columns', None)
 
-# display numbers to 2 dp
-pandas.set_option('precision', 2)
+# *** Pre Printing / Export ***
+# Format currency values so they have $'s
+
+# Ticket Details Formatting (uses currency function)
+add_dollars = ['Ticket', 'Snack Total', 'Surcharge', 'Total', 'Sub Total']
+for item in add_dollars:
+    movie_frame[item] = movie_frame[item].apply(currency)
+
+# write each frame to separate csv files
+movie_frame.to_csv("ticket_details.csv")
+summary_frame.to_csv("snack_summary.csv")
 
 print()
 print("*** Ticket / Snack Information ***")
@@ -336,19 +368,6 @@ print()
 print("*** Snack / Profit Summary ***")
 print()
 print(summary_frame)
-
-if count == max_tickets:
-    print("You have sold all the available tickets!")
-else:
-    print("You sold {} tickets. \n"
-    "There are {} places still available.".format(count, max_tickets - count))
-
-
-    # loop to ask for snacks
-
-    # calculate snack price
-
-    # ask for payment method (and apply surcharge if necessary)
 
 # calculate total sales and profit
 
