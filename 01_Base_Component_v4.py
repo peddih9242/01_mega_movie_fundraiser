@@ -177,7 +177,7 @@ def instructions(options):
         print()
         print("**** Mega Movie Fundraiser Instructions ****")
         print()
-        print()
+        print("Give us your name, age and the snacks you want and enter the movie!")
     else:
         return ""
 
@@ -229,7 +229,7 @@ movie_data_dict = {
     'Surcharge Multiplier': surcharge_mult_list
 }
 
-sumamry_data_dict = {
+summary_data_dict = {
     'Item': summary_headings,
     'Amount': summary_data
 }
@@ -341,7 +341,7 @@ for item in dollar_amounts:
     summary_data.append(item)
 
 # summary frame
-summary_frame = pandas.DataFrame(sumamry_data_dict)
+summary_frame = pandas.DataFrame(summary_data_dict)
 summary_frame = summary_frame.set_index('Item')
 
 # set up columns to be printed
