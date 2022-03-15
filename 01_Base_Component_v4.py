@@ -177,7 +177,8 @@ def instructions(options):
         print()
         print("**** Mega Movie Fundraiser Instructions ****")
         print()
-        print("Give us your name, age and the snacks you want and enter the movie!")
+        print("Enter the names, ages and the snacks your group wants.")
+        print("This program will calculate the ")
     else:
         return ""
 
@@ -207,6 +208,8 @@ mnms = []
 pita_chips = []
 water = []
 orange_juice = []
+
+store_grand_total = []
 
 snack_list = [popcorn, mnms, pita_chips, water, orange_juice]
 
@@ -355,10 +358,17 @@ add_dollars = ['Ticket', 'Snack Total', 'Surcharge', 'Total', 'Sub Total']
 for item in add_dollars:
     movie_frame[item] = movie_frame[item].apply(currency)
 
+get_total = ['Ticket', 'SM', 'M&Ms', 'OJ', 'Chips', 'Popcorn', 'Water', 'Snack Total', 'Sub Total', 'Surcharge']
+for item in get_total:
+    movie_frame[item] = ""
+movie_frame['Grand Total'] = movie_frame
+
 # write each frame to separate csv files
 movie_frame.to_csv("ticket_details.csv")
 summary_frame.to_csv("snack_summary.csv")
 
+
+# output the frames
 print()
 print("*** Ticket / Snack Information ***")
 print(movie_frame[['Ticket', 'Snack Total', 'Sub Total', 'Surcharge', 'Total']])
@@ -368,7 +378,3 @@ print()
 print("*** Snack / Profit Summary ***")
 print()
 print(summary_frame)
-
-# calculate total sales and profit
-
-# output data to text file
