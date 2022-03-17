@@ -6,7 +6,7 @@ import re
 # functions
 
 # string checker, checks for valid input from multiple lists
-def string_checker(choice, options):
+def string_checker(choice, options, error):
     
     # check for valid input in each list
     for var_list in options:
@@ -21,7 +21,7 @@ def string_checker(choice, options):
     if valid == "yes":
         return chosen
     else:
-        print("Please enter a valid option")
+        print(error)
         print()
         return "invalid choice"
 
@@ -54,9 +54,11 @@ def num_check(question):
                 return response
             else:
                 print(error)
+                print()
 
         except ValueError:
             print(error)
+            print()
 
 
 # ask for ticket age, look for invalid age and calculate ticket price
@@ -67,15 +69,13 @@ def get_ticket_price():
 
     # check for invalid age input and restart loop if found
     if age < 12:
-        print("Sorry you are too young")
+        print("Sorry you are too young.")
         print()
         return "invalid ticket price"
     elif age > 130:
         print("That is probably a mistake!")
         print()
         return "invalid ticket price"
-    
-    print()
 
     # calculate ticket price
     if age < 16:
@@ -97,7 +97,6 @@ def get_snack():
 
     desired_snack = ""
     while desired_snack != "xxx" or desired_snack != "n":
-
         snack_row = []
 
         desired_snack = input("Snack: ").lower()
@@ -113,10 +112,11 @@ def get_snack():
 
         # remove whitespace
         desired_snack = desired_snack.strip()
-        snack_choice = string_checker(desired_snack, valid_snacks)
+        snack_choice = string_checker(desired_snack, valid_snacks, "Please enter a valid snack.")
 
         if amount > 4:
             print("Sorry - we have a four snack maximum")
+            print()
             snack_choice = "invalid choice"
         
         # add amount and choice to lists
@@ -132,13 +132,14 @@ def surcharge():
     check_payment = "invalid choice"
     while check_payment == "invalid choice":
         payment = input("What payment method would you like to use? ")
-        check_payment = string_checker(payment, payment_options)
+        check_payment = string_checker(payment, payment_options, "Please enter a valid payment method (cash/credit)")
     
     # decide whether to have surcharge then add surcharge
     if check_payment == "Credit":
         surcharge_multiplier = 0.05
     else:
         surcharge_multiplier = 0
+    print()
     return surcharge_multiplier
 
 # snack analysing function, gets total amount of each snack
@@ -168,18 +169,21 @@ def currency(x):
 
 
 def instructions(options):
-    want_instructions = "invalid choice"
-    while want_instructions == "invalid choice":
+    check_instructions = "invalid choice"
+    while check_instructions == "invalid choice":
         want_instructions = input("Would you like to read the instructions? ")
-        check_instructions = string_checker(want_instructions, options)
+        check_instructions = string_checker(want_instructions, options, "Please enter yes or no.")
 
-    if check_instructions == "yes":
+    if check_instructions == "Yes":
         print()
         print("**** Mega Movie Fundraiser Instructions ****")
         print()
-        print("Enter the names, ages and the snacks your group wants.")
-        print("This program will calculate the ")
+        print("In this program we will ask for the names, ages and the snacks for your audience.")
+        print("You can exit a question by typing 'xxx' when being asked for your name / snack.")
+        print("The program will then calculate the snacks ordered for each person, the total cost and the profits earnt and export it into a .csv file.")
+        print()
     else:
+        print()
         return ""
 
 # main routine
@@ -208,8 +212,6 @@ mnms = []
 pita_chips = []
 water = []
 orange_juice = []
-
-store_grand_total = []
 
 snack_list = [popcorn, mnms, pita_chips, water, orange_juice]
 
@@ -273,7 +275,12 @@ while name != "xxx" and count < max_tickets:
     name = not_blank("What's your name? ", "Sorry, you can't leave this blank - please enter your name.")
     # end loop if the exit code is entered
     if name == "xxx":
-        break
+        if count == 0:
+            print("Please enter an order!")
+            print()
+        else:
+            print()
+            break
 
     # get price of ticket
     ticket_price = get_ticket_price()
@@ -338,6 +345,9 @@ ticket_profit = ticket_sales - (5 * count)
 # get total profit and add to list
 total_profit = ticket_profit + snack_profit
 
+# *** Pre Printing / Export ***
+# Format currency values so they have $'s
+
 dollar_amounts = [snack_profit, ticket_profit, total_profit]
 for item in dollar_amounts:
     item = "${:.2f}".format(item)
@@ -350,18 +360,11 @@ summary_frame = summary_frame.set_index('Item')
 # set up columns to be printed
 pandas.set_option('display.max_columns', None)
 
-# *** Pre Printing / Export ***
-# Format currency values so they have $'s
 
 # Ticket Details Formatting (uses currency function)
 add_dollars = ['Ticket', 'Snack Total', 'Surcharge', 'Total', 'Sub Total']
 for item in add_dollars:
     movie_frame[item] = movie_frame[item].apply(currency)
-
-get_total = ['Ticket', 'SM', 'M&Ms', 'OJ', 'Chips', 'Popcorn', 'Water', 'Snack Total', 'Sub Total', 'Surcharge']
-for item in get_total:
-    movie_frame[item] = ""
-movie_frame['Grand Total'] = movie_frame
 
 # write each frame to separate csv files
 movie_frame.to_csv("ticket_details.csv")
@@ -371,10 +374,10 @@ summary_frame.to_csv("snack_summary.csv")
 # output the frames
 print()
 print("*** Ticket / Snack Information ***")
+print()
 print(movie_frame[['Ticket', 'Snack Total', 'Sub Total', 'Surcharge', 'Total']])
 
 print()
-
 print("*** Snack / Profit Summary ***")
 print()
 print(summary_frame)
